@@ -1,0 +1,3 @@
+# Ignore NumPy binary files
+*.npy
+*.npz
