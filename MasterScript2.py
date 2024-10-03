@@ -38,7 +38,7 @@ for file_path in npy_files:
     # Store the data in a dictionary with the file name as the key
 
 # NpyFileIndex=0
-    snapshotsNp = np.load(file_path)[1500:,:,:]
+    snapshotsNp = np.load(file_path)[2500:,:,:]
     # snapshotsNp=data_dict[filename_list[NpyFileIndex]][1000:,:,:]
 
 
