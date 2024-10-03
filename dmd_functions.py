@@ -369,7 +369,7 @@ def create_animation(data, x1grid, x2grid, video_output_dir, plot_name, update_f
     # Save the animation if requested
     if save_video:
         if writer is None:
-            writer = animation.FFMpegWriter(fps=fps, metadata=dict(artist='Me'), bitrate=2000)
+            writer = animation.FFMpegWriter(fps=fps, metadata=dict(artist='Me'), bitrate=10000)
         
         video_path = os.path.join(video_output_dir, f'{plot_name.lower().replace(" ", "_")}.mp4')
         anim.save(video_path, writer=writer)
@@ -391,7 +391,7 @@ def save_animation(anim_dmd, dmd_video_path, writer, fig_dmd):
 
 
 def create_comparison_animation(snapshots, dmd_states, x1grid, x2grid, video_output_dir, plot_name, nModes,
-                                time_per_frame=1e-7, duration=20, figsize=(10, 8), 
+                                time_per_frame=1e-7, duration=20, figsize=(20, 5), 
                                 display_video=True, save_video=True, writer=None):
     vmin = min(np.array(snapshots).real.min(), np.array(dmd_states).real.min())
     vmax = max(np.array(snapshots).real.max(), np.array(dmd_states).real.max())
@@ -441,7 +441,7 @@ def create_comparison_animation(snapshots, dmd_states, x1grid, x2grid, video_out
 
     if save_video:
         if writer is None:
-            writer = animation.FFMpegWriter(fps=fps, metadata=dict(artist='Me'), bitrate=2000)
+            writer = animation.FFMpegWriter(fps=fps, metadata=dict(artist='Me'), bitrate=10000)
         
         video_path = os.path.join(video_output_dir, f'{plot_name.lower().replace(" ", "_")}_comparison.mp4')
         anim.save(video_path, writer=writer)
