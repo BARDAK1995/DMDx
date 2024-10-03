@@ -369,7 +369,7 @@ def create_animation(data, x1grid, x2grid, video_output_dir, plot_name, update_f
     # Save the animation if requested
     if save_video:
         if writer is None:
-            writer = animation.FFMpegWriter(fps=fps, metadata=dict(artist='Me'), bitrate=1700)
+            writer = animation.FFMpegWriter(fps=fps, metadata=dict(artist='Me'), bitrate=2000)
         
         video_path = os.path.join(video_output_dir, f'{plot_name.lower().replace(" ", "_")}.mp4')
         anim.save(video_path, writer=writer)
@@ -441,7 +441,7 @@ def create_comparison_animation(snapshots, dmd_states, x1grid, x2grid, video_out
 
     if save_video:
         if writer is None:
-            writer = animation.FFMpegWriter(fps=fps, metadata=dict(artist='Me'), bitrate=1700)
+            writer = animation.FFMpegWriter(fps=fps, metadata=dict(artist='Me'), bitrate=2000)
         
         video_path = os.path.join(video_output_dir, f'{plot_name.lower().replace(" ", "_")}_comparison.mp4')
         anim.save(video_path, writer=writer)
