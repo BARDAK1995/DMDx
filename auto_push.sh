@@ -12,6 +12,6 @@ do
     # Push the changes to the remote repository
     git push origin main  # Change 'main' to the correct branch name if needed
 
-    # Wait for 30 seconds before the next commit and push 1800 for 6 hours
+    # Wait for 30 secsonds before the next commit and push 1800 for 6 hours
     sleep 30
 done
