@@ -15,14 +15,14 @@ caseName = "flowfield_333khz/"
 folderLocation="Datas/" + caseName 
 
 
-VisualMode = True
+VisualMode = False
 # Get all .npy files in the folder
 npy_files = glob.glob(os.path.join(folderLocation, '*.npy'))
 
 # Load each file
 data_dict = {}
 filename_list=[]
-for file_path in npy_files:
+for file_path in [npy_files[0]]:
     # Get the file name without extension
     file_name = os.path.splitext(os.path.basename(file_path))[0]
     folder_path = os.path.join(folderLocation, file_name)
@@ -179,7 +179,6 @@ for file_path in npy_files:
         order='C',
         time_per_frame=time_per_frame  # Pass the time per frame
     )
-
 
 
     total_frames = len(dmd_states)-1

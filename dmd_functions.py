@@ -8,6 +8,9 @@ import os
 import pandas as pd
 from pydmd.plotter import plot_summary
 import numpy as np
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
+
 
 def plot_summaryNEW(
     dmd,
@@ -188,6 +191,7 @@ def plot_summaryNEW(
             freq_kHz = frequencies_kHz[idx]
             ax.set_title(f"Mode {idx + 1}, Frequency: {freq_kHz:.2f} kHz", fontsize=title_fontsize)
             mode = lead_modes[:, idx]
+            scale2Physical = np.mean(abs(lead_dynamics[idx].real))*2
             if len(snapshots_shape) == 1:
                 # Plot modes in 1-D.
                 ax.plot(x, mode.real, c=mode_color)
@@ -198,17 +202,61 @@ def plot_summaryNEW(
                 im = ax.pcolormesh(
                     xgrid,
                     ygrid,
-                    mode_reshaped.real,
-                    vmax=vmax,
-                    vmin=-vmax,
+                    mode_reshaped.real*scale2Physical ,
+                    vmax=vmax*scale2Physical,
+                    vmin=-vmax*scale2Physical,
                     cmap=mode_cmap,
                 )
+                # ax.set_aspect(4)
                 # Align the colorbar with the plotted image.
                 divider = make_axes_locatable(ax)
                 cax = divider.append_axes("right", size="3%", pad=0.05)
                 fig.colorbar(im, cax=cax)
             ax.set_xlabel('X-axis', fontsize=label_fontsize)
             ax.set_ylabel('Y-axis', fontsize=label_fontsize)
+            plt.tight_layout()
+
+        #  individual plots are created
+        individual_fig, individual_ax = plt.subplots(figsize=(16, 3))  # Adjust figure size for a tighter plot
+        plt.subplots_adjust(top=0.9, bottom=0.15, left=0.05, right=0.95)  # Adjust margins
+        if len(snapshots_shape) == 1:
+            individual_ax.plot(x, mode.real, c=mode_color)
+        else:
+            vmin = -vmax*scale2Physical
+            vmax = vmax*scale2Physical
+            im = individual_ax.pcolormesh(
+                xgrid,
+                ygrid,
+                mode_reshaped.real*scale2Physical,
+                vmin=vmin,
+                vmax=vmax,
+                cmap=mode_cmap,
+            )
+            individual_ax.set_aspect('auto')  # Change aspect ratio to 'auto'
+            # Create a smaller colorbar with larger text
+            divider = make_axes_locatable(individual_ax)
+            cax = divider.append_axes("right", size="3%", pad=0.05)  # Increase pad slightly
+            cbar = individual_fig.colorbar(im, cax=cax, ticks=[vmin, vmax])
+            cbar.ax.tick_params(labelsize=16)
+            # cbar.set_label('Amplitude', fontsize=14, labelpad=10)
+
+        individual_ax.set_title(f"Mode {idx + 1}, Frequency: {freq_kHz:.2f} kHz, Amplitude = +- {vmax}", fontsize=18, pad=10)
+        individual_ax.set_xlabel('X (mm)', fontsize=16, labelpad=5)
+        individual_ax.set_ylabel('Y (mm)', fontsize=16, labelpad=5)
+        
+        # Adjust layout to make it tighter
+        plt.tight_layout(pad=0.5, h_pad=0.5, w_pad=0.5)
+        
+        # Save individual plot in the same directory as summary plots
+        if filename:
+            base_dir = os.path.dirname(filename)
+            individual_filename = os.path.join(base_dir, f"Mode_{idx + 1}_Freq_{freq_kHz:.2f}kHz.png")
+        else:
+            individual_filename = f"Mode_{idx + 1}_Freq_{freq_kHz:.2f}kHz.png"
+
+        individual_fig.savefig(individual_filename, dpi=dpi, bbox_inches='tight', pad_inches=0.1)
+        plt.close(individual_fig)
+        print(f"Saved individual mode plot: {individual_filename}")
         # Hide any unused subplots
         for i in range(num_modes_in_plot, modes_per_plot):
             axes[0, i].axis('off')
@@ -216,7 +264,7 @@ def plot_summaryNEW(
         # Plot dynamics in the second row
         for i, idx in enumerate(modes_to_plot):
             ax = axes[1, i]
-            dynamics_data = lead_dynamics[idx].real
+            dynamics_data = lead_dynamics[idx].real * np.max(mode_reshaped.real)
 
             # Format the x-axis labels based on time magnitude
             if time_in_seconds[-1] < 1e-6:
