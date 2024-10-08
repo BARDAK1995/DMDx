@@ -16,7 +16,7 @@ caseName = "flowfield_500khz/"
 folderLocation="Datas/" + caseName 
 
 
-VisualMode = True
+VisualMode = False
 # Get all .npy files in the folder
 npy_files = glob.glob(os.path.join(folderLocation, '*.npy'))
 
@@ -38,7 +38,7 @@ for file_path in npy_files:
     # Store the data in a dictionary with the file name as the key
 
 # NpyFileIndex=0
-    snapshotsNp = np.load(file_path)[2500:,:,:]
+    snapshotsNp = np.load(file_path)[3000:,:,:]
     # snapshotsNp=data_dict[filename_list[NpyFileIndex]][1000:,:,:]
 
 

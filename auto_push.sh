@@ -16,5 +16,5 @@ do
     git push origin main  # Change 'main' to the correct branch name if needed
 
     # Wait for 30 minutes (1800 seconds) before the next commit and push
-    sleep 1800
+    sleep 600
 done

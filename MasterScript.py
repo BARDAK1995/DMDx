@@ -22,7 +22,7 @@ npy_files = glob.glob(os.path.join(folderLocation, '*.npy'))
 # Load each file
 data_dict = {}
 filename_list=[]
-for file_path in [npy_files[0]]:
+for file_path in npy_files[0]:
     # Get the file name without extension
     file_name = os.path.splitext(os.path.basename(file_path))[0]
     folder_path = os.path.join(folderLocation, file_name)
@@ -37,7 +37,7 @@ for file_path in [npy_files[0]]:
     # Store the data in a dictionary with the file name as the key
 
 # NpyFileIndex=0
-    snapshotsNp = np.load(file_path)[2500:,:,:]
+    snapshotsNp = np.load(file_path)[3000:,:,:]
     # snapshotsNp=data_dict[filename_list[NpyFileIndex]][1000:,:,:]
 
 
