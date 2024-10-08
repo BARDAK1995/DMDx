@@ -22,7 +22,7 @@ npy_files = glob.glob(os.path.join(folderLocation, '*.npy'))
 # Load each file
 data_dict = {}
 filename_list=[]
-for file_path in npy_files[0]:
+for file_path in npy_files:
     # Get the file name without extension
     file_name = os.path.splitext(os.path.basename(file_path))[0]
     folder_path = os.path.join(folderLocation, file_name)
